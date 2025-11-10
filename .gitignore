@@ -1,0 +1,26 @@
+# --- Java & Maven ---
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# --- Logs ---
+*.log
+
+# --- IDEs (Visual Studio Code, IntelliJ, Eclipse) ---
+.vscode/
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+
+# --- Systèmes ---
+.DS_Store
+Thumbs.db
+
+# --- Tests / Rapports ---
+jacoco.exec
+/site/
+/target/surefire-reports/
