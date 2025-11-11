@@ -4,8 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <!-- Le parent Spring Boot fournit une BOM (Bill of Materials)
-       qui fixe des versions compatibles pour l'écosystème Spring. -->
+  <!-- Parent Spring Boot -->
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
@@ -13,46 +12,45 @@
     <relativePath/>
   </parent>
 
-  <!-- Identité du projet -->
   <groupId>com.taskboard</groupId>
   <artifactId>taskboard</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>taskboard</name>
   <description>TD3 INF1763 – API TaskBoard avec tests, couverture et CI</description>
 
-  <!-- Le niveau de compilation Java -->
   <properties>
     <java.version>21</java.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
   <dependencies>
-    <!-- API REST (contrôleurs, JSON) -->
+    <!-- Web -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
-    <!-- Persistance (JPA/Hibernate + Spring Data) -->
+    <!-- JPA / Hibernate -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
 
-    <!-- Base de données H2 embarquée (aucune installation requise) -->
+    <!-- Base de données embarquée -->
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <scope>runtime</scope>
     </dependency>
 
-    <!-- Outils de test Spring (JUnit 5, AssertJ, MockMvc, etc.) -->
+    <!-- Tests -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
 
-    <!-- Mockito pour simuler (mock) les dépendances en tests unitaires -->
+    <!-- Mockito -->
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-junit-jupiter</artifactId>
@@ -62,12 +60,16 @@
 
   <build>
     <plugins>
+
+      <!-- Spotless (formatage automatique Google Java Format) -->
       <plugin>
         <groupId>com.diffplug.spotless</groupId>
         <artifactId>spotless-maven-plugin</artifactId>
         <version>2.43.0</version>
         <configuration>
-          <java><googleJavaFormat/></java>
+          <java>
+            <googleJavaFormat/>
+          </java>
         </configuration>
         <executions>
           <execution>
@@ -79,10 +81,7 @@
         </executions>
       </plugin>
 
-
-
-
-
+      <!-- Checkstyle -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
@@ -97,17 +96,13 @@
         </executions>
         <configuration>
           <configLocation>google_checks.xml</configLocation>
-          <encoding>UTF-8</encoding>
           <consoleOutput>true</consoleOutput>
           <failsOnError>true</failsOnError>
+          <linkXRef>false</linkXRef>
         </configuration>
       </plugin>
-      <!-- Packaging/exécution Spring Boot -->
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
 
+      <!-- JXR (génération des sources HTML, optionnelle) -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
@@ -124,25 +119,21 @@
         </executions>
       </plugin>
 
-
-      <!-- JaCoCo : agent de couverture + rapport HTML/XML -->
+      <!-- JaCoCo (couverture de code) -->
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>0.8.12</version>
         <executions>
-          <!-- Branche l’agent au début des tests -->
           <execution>
             <goals><goal>prepare-agent</goal></goals>
           </execution>
-          <!-- Génére le rapport à la phase 'verify' (après tests) -->
           <execution>
             <id>report</id>
             <phase>verify</phase>
             <goals><goal>report</goal></goals>
           </execution>
         </executions>
-
         <configuration>
           <rules>
             <rule>
@@ -158,6 +149,13 @@
           </rules>
         </configuration>
       </plugin>
+
+      <!-- Spring Boot Plugin -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+
     </plugins>
   </build>
 </project>
