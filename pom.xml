@@ -62,11 +62,68 @@
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>2.43.0</version>
+        <configuration>
+          <java><googleJavaFormat/></java>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>apply</goal>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+
+
+
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>3.3.0</version>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <configLocation>google_checks.xml</configLocation>
+          <encoding>UTF-8</encoding>
+          <consoleOutput>true</consoleOutput>
+          <failsOnError>true</failsOnError>
+        </configuration>
+      </plugin>
       <!-- Packaging/exécution Spring Boot -->
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>3.3.2</version>
+        <executions>
+          <execution>
+            <id>generate-xref</id>
+            <phase>site</phase>
+            <goals>
+              <goal>jxr</goal>
+              <goal>test-jxr</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
 
       <!-- JaCoCo : agent de couverture + rapport HTML/XML -->
       <plugin>
@@ -85,6 +142,21 @@
             <goals><goal>report</goal></goals>
           </execution>
         </executions>
+
+        <configuration>
+          <rules>
+            <rule>
+              <element>CLASS</element>
+              <limits>
+                <limit>
+                  <counter>INSTRUCTION</counter>
+                  <value>COVEREDRATIO</value>
+                  <minimum>0.60</minimum>
+                </limit>
+              </limits>
+            </rule>
+          </rules>
+        </configuration>
       </plugin>
     </plugins>
   </build>
